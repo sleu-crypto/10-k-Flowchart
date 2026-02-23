@@ -1,0 +1,330 @@
+flowchart TD
+    classDef green fill:#C6EFCE,stroke:#006100,color:#006100,stroke-width:2px
+    classDef yellow fill:#FFEB9C,stroke:#9C6500,color:#9C6500,stroke-width:2px
+    classDef red fill:#FFC7CE,stroke:#9C0006,color:#9C0006,stroke-width:2px
+    classDef phase fill:#2E4057,stroke:#2E4057,color:#FFFFFF,stroke-width:2px
+    classDef doc fill:#FFF2CC,stroke:#D6B656,color:#7F6000,stroke-width:2px
+    classDef output fill:#D5E8D4,stroke:#82B366,color:#2D6A2E,stroke-width:2px
+    classDef subflow fill:#DAE8FC,stroke:#6C8EBF,color:#1A3A5C,stroke-width:2px
+    classDef pending fill:#F8E8D0,stroke:#C4873B,color:#7A4A1A,stroke-width:2px
+    classDef gap fill:#E0E0E0,stroke:#616161,color:#616161,stroke-width:2px,stroke-dasharray: 5 5
+
+    TITLE["BEROK CAPITAL, INC. — FORM 10-K<br/>Master Compilation Flowchart<br/>🔵 Blue = Sub-workflow EXISTS | 🟠 Orange = Sub-workflow TO BUILD | ⬜ Gray = Blocked by GAP"]:::phase
+
+    %% ============================================
+    %% PHASE 0
+    %% ============================================
+
+    P0["PHASE 0: Close Books & Finalize Trial Balance"]:::phase
+    TITLE --> P0
+
+    P0_detail["📄 General Ledger, bank reconciliations, AJEs<br/>👤 Controller — posts entries, reviews, signs off<br/>📤 Final Trial Balance — locked, foundation for all phases"]:::red
+    P0 --> P0_detail
+
+    %% ============================================
+    %% PHASE 1: PART I
+    %% ============================================
+
+    P1["PHASE 1: Part I"]:::phase
+    P0_detail --> P1
+
+    P1_I1["🟠 Item 1: Business<br/>📄 PY 10-K, fund prospectuses (1.3.03–1.3.18),<br/>Fund AUM schedule (1.4.01), advisory agreements (1.4.02)<br/>👤 LLM drafts from PY 10-K + fund docs<br/>👤 CEO/COO confirms updates — new funds, acquisitions, terminations"]:::pending
+    P1 --> P1_I1
+
+    P1_I1A["🟠 Item 1A: Risk Factors<br/>📄 PY 10-K, board minutes, legal counsel input<br/>👤 LLM drafts from PY 10-K<br/>👤 Legal reviews for new/changed risks<br/>👤 CEO approves final risk language"]:::pending
+    P1 --> P1_I1A
+
+    P1_I1C["Item 1C: Cybersecurity<br/>📄 PY 10-K, IT incident logs<br/>👤 LLM drafts | 👤 IT confirms no material incidents"]:::yellow
+    P1 --> P1_I1C
+
+    P1_I234["Items 2–4: Properties, Legal, Mine Safety<br/>📄 PY 10-K, lease agreements, legal counsel input<br/>👤 LLM drafts | 👤 Legal confirms no pending litigation"]:::yellow
+    P1 --> P1_I234
+
+    P1_out["📤 Part I Complete"]:::output
+    P1_I1 --> P1_out
+    P1_I1A --> P1_out
+    P1_I1C --> P1_out
+    P1_I234 --> P1_out
+
+    %% ============================================
+    %% PHASE 2: ITEM 5
+    %% ============================================
+
+    P2["PHASE 2: Item 5 — Common Equity, Dividends & Repurchases"]:::phase
+    P1_out --> P2
+
+    P2_mkt["5a: Market Information<br/>📄 Nova exchange data, Computershare records<br/>👤 CFO provides shareholder count & transfer agent confirmation"]:::yellow
+    P2 --> P2_mkt
+
+    P2_div["5b: Dividend History<br/>📄 8.2.05 Dividend Schedule<br/>👤 LLM extracts quarterly rates & ex-dates"]:::green
+    P2 --> P2_div
+
+    P2_repo["5c: Repurchase Table<br/>📄 5.2.01 Share Repurchase Support<br/>👤 LLM compiles monthly activity & remaining authorized"]:::green
+    P2 --> P2_repo
+
+    P2_eqcomp["5d: Equity Comp Plan Table<br/>📄 8.6.01 RSU Schedule, Omnibus Plan document<br/>👤 LLM compiles shares authorized/outstanding/available"]:::green
+    P2 --> P2_eqcomp
+
+    P2_out["📤 Item 5 Complete"]:::output
+    P2_mkt --> P2_out
+    P2_div --> P2_out
+    P2_repo --> P2_out
+    P2_eqcomp --> P2_out
+
+    %% ============================================
+    %% PHASE 3: ITEM 7 — MD&A
+    %% ============================================
+
+    P3["PHASE 3: Item 7 — MD&A"]:::phase
+    P2_out --> P3
+
+    P3_ov["🟠 7a: Overview — AUM & Market<br/>📄 7.2.01 AUM RF tables, 7.2.02 overview prose,<br/>1.4.01 Fund AUM schedule<br/>👤 LLM drafts from support docs<br/>👤 CEO/COO confirms market commentary & strategic narrative"]:::pending
+    P3 --> P3_ov
+
+    P3_res["🟠 7b: Results of Operations<br/>📄 7.4.01 Results tables, 7.4.02 Results prose,<br/>Trial Balance<br/>👤 LLM compiles YoY comparison tables & variance analysis<br/>👤 CFO reviews explanations for material changes"]:::pending
+    P3 --> P3_res
+
+    P3_liq["🟠 7c: Liquidity & Capital Resources<br/>📄 7.03.01–7.03.15 full support package<br/>(cash flows, debt docs, dividend records, AUM reports)<br/>👤 LLM drafts from support docs<br/>👤 CFO confirms capital adequacy assessment"]:::pending
+    P3 --> P3_liq
+
+    P3_crit["7d: Critical Accounting Estimates<br/>📄 Impairment analysis, tax provision workpapers<br/>👤 CFO/Controller — requires management judgment<br/>👤 Cannot be automated"]:::red
+    P3 --> P3_crit
+
+    P3_out["📤 Item 7 MD&A Complete"]:::output
+    P3_ov --> P3_out
+    P3_res --> P3_out
+    P3_liq --> P3_out
+    P3_crit --> P3_out
+
+    %% ============================================
+    %% PHASE 4: ITEM 8 — FINANCIAL STATEMENTS
+    %% ============================================
+
+    P4["PHASE 4: Item 8 — Financial Statements & Notes"]:::phase
+    P3_out --> P4
+
+    %% --- BALANCE SHEET ---
+    P4A["🟠 4A: Balance Sheets"]:::pending
+    P4 --> P4A
+
+    P4A_assets["Assets<br/>📄 Trial Balance, 8.7.01 FV Schedule,<br/>8.7.02 Interest Receivable, 8.2.06 Advisory Fee Rec,<br/>8.8.01 Investments schedule<br/>📄 Fixed asset register — GAP 🔴<br/>👤 LLM maps TB accounts to each BS line<br/>👤 Controller verifies all mappings"]:::green
+    P4A --> P4A_assets
+
+    P4A_liab["Liabilities<br/>📄 Trial Balance, accrued liabilities detail,<br/>lease schedules, 8.14.01–07 Debt schedules<br/>📄 DTA/DTL schedule — GAP 🔴<br/>👤 LLM maps TB accounts to each BS line<br/>👤 Controller verifies"]:::green
+    P4A --> P4A_liab
+
+    P4A_eq["Stockholders Equity<br/>📄 8.2.01 Stock Ledger, 8.2.02 APIC RF,<br/>8.2.03 Retained Earnings RF<br/>👤 LLM compiles from equity sub-schedules<br/>👤 Controller verifies A = L + SE"]:::green
+    P4A --> P4A_eq
+
+    P4A_out["📤 Balance Sheet — comparative CY & PY"]:::output
+    P4A_assets --> P4A_out
+    P4A_liab --> P4A_out
+    P4A_eq --> P4A_out
+
+    %% --- INCOME STATEMENT ---
+    P4B["🟠 4B: Statements of Income"]:::pending
+    P4 --> P4B
+
+    P4B_rev["Revenue<br/>📄 Trial Balance, 1.4.02 Revenue/Sub-Advisory Fees<br/>👤 LLM sums TB revenue accounts<br/>👤 Controller verifies to fee schedule"]:::green
+    P4B --> P4B_rev
+
+    P4B_exp["Operating Expenses<br/>📄 Trial Balance, 8.3.01 Payroll Record,<br/>8.3.02 Fund Distribution Expense,<br/>8.6.01 RSU Schedule (stock comp),<br/>8.14.02 Interest expense detail<br/>👤 LLM maps TB expense accounts to IS lines<br/>👤 Controller verifies comp = cash + stock comp"]:::green
+    P4B --> P4B_exp
+
+    P4B_other["Other Income & Tax<br/>📄 Trial Balance, 8.7.02 Interest Income,<br/>tax provision computation — GAP 🔴<br/>👤 LLM compiles | 👤 CPA confirms tax provision"]:::yellow
+    P4B --> P4B_other
+
+    P4B_out["📤 Statement of Income — comparative CY & PY"]:::output
+    P4B_rev --> P4B_out
+    P4B_exp --> P4B_out
+    P4B_other --> P4B_out
+
+    %% --- STMT OF CHANGES IN SE ---
+    P4C["🔵 4C: Statement of Changes in SE<br/>DETAILED WORKFLOW EXISTS"]:::subflow
+    P4 --> P4C
+
+    P4C_detail["📄 8.4.01 Stmt Changes SE, 8.2.01 Stock Ledger,<br/>8.2.02 APIC RF, 8.2.03 Retained Earnings,<br/>8.2.04 DRSPP, 8.2.05 Dividends, 8.6.01 RSU<br/>👤 LLM compiles — all supporting schedules exist<br/>👤 Controller verifies ending balances tie to BS"]:::green
+    P4C --> P4C_detail
+
+    P4C_out["📤 Stmt of Changes in SE — 2-year comparative"]:::output
+    P4C_detail --> P4C_out
+
+    %% --- CASH FLOWS ---
+    P4D["🟠 4D: Statements of Cash Flows"]:::pending
+    P4 --> P4D
+
+    P4D_ops["Operating Activities<br/>📄 8.05.01–02 Comparative BS & IS,<br/>8.05.08–13 WC roll-forwards,<br/>8.05.16–19 Non-cash adjustments<br/>👤 LLM derives from BS changes + non-cash add-backs<br/>👤 Controller verifies indirect method reconciliation"]:::green
+    P4D --> P4D_ops
+
+    P4D_inv["Investing Activities<br/>📄 8.05.04 Fixed Asset Register — GAP 🔴,<br/>8.05.14–15 Investment & acquisition docs<br/>👤 LLM extracts | 👤 Controller provides acquisition detail"]:::yellow
+    P4D --> P4D_inv
+
+    P4D_fin["Financing Activities<br/>📄 8.05.03 Stmt of SE, 8.05.05 Debt Schedule,<br/>8.05.06 Equity Transaction Register,<br/>8.2.04 DRSPP, 8.2.05 Dividends, 8.6.01 RSU<br/>👤 LLM compiles from equity & debt schedules"]:::green
+    P4D --> P4D_fin
+
+    P4D_supp["Supplemental Disclosures<br/>📄 8.05.20 Interest & Tax Payment Records<br/>👤 CFO confirms from bank records & tax filings"]:::red
+    P4D --> P4D_supp
+
+    P4D_out["📤 Cash Flow Statement — comparative<br/>Ending cash ties to BS"]:::output
+    P4D_ops --> P4D_out
+    P4D_inv --> P4D_out
+    P4D_fin --> P4D_out
+    P4D_supp --> P4D_out
+
+    %% --- NOTES ---
+    P4E["Notes to Financial Statements"]:::phase
+    P4 --> P4E
+
+    N1["🔵 Note 1: Organization & Accounting Policies<br/>DETAILED WORKFLOW EXISTS<br/>📄 TB, 8.6.01 RSU, 8.2.01–05 equity schedules,<br/>Omnibus Plan doc, PY 10-K, ASC guidance<br/>👤 LLM compiles RSU table & most policy prose<br/>👤 Controller confirms policy elections<br/>👤 Legal confirms plan descriptions"]:::subflow
+    P4E --> N1
+
+    N2["🔵 Note 2: Fair Value Measurements<br/>DETAILED WORKFLOW EXISTS<br/>📄 8.7.01 FV Hierarchy, 8.7.02 Interest Income,<br/>TB, custodian confirmations, Bloomberg screenshots<br/>👤 LLM compiles hierarchy tables & standard prose<br/>👤 Controller provides external confirmations"]:::subflow
+    P4E --> N2
+
+    N3["🟠 Note 3: Investments<br/>📄 8.8.01 Investments schedule, 8.7.01 FV Schedule<br/>👤 LLM compiles cost vs. FV table, unrealized G/L<br/>👤 Controller verifies to custodian statements"]:::pending
+    P4E --> N3
+
+    N4["🟠 Note 4: Sub-Advisory Agreements<br/>📄 1.4.02 Sub-advisory fee schedule,<br/>executed sub-advisory agreements<br/>👤 LLM drafts from PY 10-K<br/>👤 COO confirms fund names, sub-advisors & fee rates"]:::pending
+    P4E --> N4
+
+    N5["⬜ Note 5: Property & Equipment — BLOCKED<br/>📄 Fixed asset register — DOES NOT EXIST<br/>Needs: asset class, date, cost, useful life,<br/>accum depreciation, NBV<br/>👤 Controller must build register first"]:::gap
+    P4E --> N5
+
+    N6["⬜ Note 6: Management Contracts — BLOCKED<br/>📄 Acquisition layer roll-forward — DOES NOT EXIST<br/>📄 Impairment analysis — DOES NOT EXIST<br/>Needs: 12 historical acquisitions, carrying values,<br/>income approach valuation model<br/>👤 Controller must build roll-forward<br/>👤 CFO performs impairment judgment"]:::gap
+    P4E --> N6
+
+    N7["🟠 Note 7: Operating Leases<br/>📄 Executed lease agreements,<br/>ASC 842 amortization schedules<br/>👤 LLM drafts ROU asset, liability & maturity tables<br/>👤 Controller provides lease agreements<br/>👤 CFO confirms discount rate & lease classification"]:::pending
+    P4E --> N7
+
+    N8["🟠 Note 8: Accrued Liabilities<br/>📄 Trial Balance, 8.05.11 Accrued Expenses Detail<br/>👤 LLM compiles breakout table by category<br/>👤 Controller verifies to TB"]:::pending
+    P4E --> N8
+
+    N9["🟠 Note 9: Debt Outstanding<br/>📄 8.14.01–07 Debt schedules<br/>(issuance docs, amortization, indenture, covenants)<br/>👤 LLM compiles terms, carrying value & FV<br/>👤 CFO confirms covenant compliance"]:::pending
+    P4E --> N9
+
+    N10["🟠 Note 10: Commitments & Contingencies<br/>📄 8.15.01–07 C&C support package<br/>(fee waiver agreements, settlement docs, leases)<br/>👤 LLM drafts from support docs<br/>👤 Legal confirms contingency disclosures<br/>👤 COO confirms fee waiver terms"]:::pending
+    P4E --> N10
+
+    N11["🟠 Note 11: 401k Plan<br/>📄 401k plan document, TB expense account<br/>👤 LLM drafts eligibility & contribution language<br/>👤 HR confirms plan terms & contribution %"]:::pending
+    P4E --> N11
+
+    N12["⬜ Note 12: Income Taxes — BLOCKED<br/>📄 Tax provision computation — DOES NOT EXIST<br/>📄 Effective rate reconciliation — DOES NOT EXIST<br/>📄 DTA/DTL schedule — DOES NOT EXIST<br/>📄 UTP roll-forward<br/>Needs: current/deferred split, temp differences,<br/>rate recon, open year confirmations<br/>👤 CPA/Tax advisor must build all schedules<br/>👤 CFO approves uncertain tax positions"]:::gap
+    P4E --> N12
+
+    N13["🟠 Note 13: Earnings Per Share<br/>📄 8.18.01 EPS schedule,<br/>8.6.01 RSU Schedule (dilutive shares)<br/>👤 LLM compiles basic & diluted EPS table<br/>👤 Controller verifies treasury stock method calc"]:::pending
+    P4E --> N13
+
+    P4E_out["📤 All Notes Complete"]:::output
+    N1 --> P4E_out
+    N2 --> P4E_out
+    N3 --> P4E_out
+    N4 --> P4E_out
+    N5 --> P4E_out
+    N6 --> P4E_out
+    N7 --> P4E_out
+    N8 --> P4E_out
+    N9 --> P4E_out
+    N10 --> P4E_out
+    N11 --> P4E_out
+    N12 --> P4E_out
+    N13 --> P4E_out
+
+    %% ============================================
+    %% PHASE 5: ITEMS 9–9C
+    %% ============================================
+
+    P5["PHASE 5: Items 9–9C — Controls & Other"]:::phase
+    P4A_out --> P5
+    P4B_out --> P5
+    P4C_out --> P5
+    P4D_out --> P5
+    P4E_out --> P5
+
+    P5_9["Item 9: Changes in Accountants<br/>📄 Auditor change correspondence, engagement letters<br/>👤 LLM drafts | 👤 CFO confirms details"]:::yellow
+    P5 --> P5_9
+
+    P5_9A["Item 9A: Controls & Procedures<br/>📄 ICFR assessment workpapers, testing results<br/>👤 CEO/CFO — management evaluation required<br/>👤 Cannot be automated"]:::red
+    P5 --> P5_9A
+
+    P5_9BC["Items 9B, 9C: Other / Foreign Jurisdictions<br/>📄 Rule 10b5-1 records<br/>👤 LLM drafts | 👤 Legal confirms"]:::yellow
+    P5 --> P5_9BC
+
+    P5_out["📤 Items 9–9C Complete"]:::output
+    P5_9 --> P5_out
+    P5_9A --> P5_out
+    P5_9BC --> P5_out
+
+    %% ============================================
+    %% PHASE 6: PART III
+    %% ============================================
+
+    P6["PHASE 6: Part III — Items 10–14<br/>(Incorporated by Reference from Proxy Statement)"]:::phase
+    P5_out --> P6
+
+    P6_10["Item 10: Directors & Corporate Governance<br/>📄 Proxy Statement — Election of Directors,<br/>Corporate Governance, Code of Ethics sections<br/>👤 LLM drafts incorporation language<br/>👤 Corporate Secretary confirms Proxy is filed"]:::yellow
+    P6 --> P6_10
+
+    P6_11["Item 11: Executive Compensation<br/>📄 Proxy Statement — Director Comp, CD&A,<br/>Summary Comp Table, Outstanding Equity Awards,<br/>Pay vs. Performance<br/>📄 11.00.01–05 Employment & bonus agreements<br/>👤 LLM drafts incorporation language<br/>👤 Comp Committee confirms Proxy disclosures"]:::yellow
+    P6 --> P6_11
+
+    P6_12["Item 12: Security Ownership & Equity Comp Plan<br/>📄 Proxy Statement — Beneficial Ownership table<br/>📄 Equity comp plan table from Item 5<br/>👤 LLM drafts | 👤 Corporate Secretary confirms"]:::yellow
+    P6 --> P6_12
+
+    P6_1314["Items 13–14: Related Transactions, Accountant Fees<br/>📄 Proxy Statement — Related Party, Audit Fees<br/>👤 LLM drafts | 👤 Audit Committee Chair confirms"]:::yellow
+    P6 --> P6_1314
+
+    P6_out["📤 Part III Complete"]:::output
+    P6_10 --> P6_out
+    P6_11 --> P6_out
+    P6_12 --> P6_out
+    P6_1314 --> P6_out
+
+    %% ============================================
+    %% PHASE 7: PART IV & ASSEMBLY
+    %% ============================================
+
+    P7["PHASE 7: Part IV — Exhibits & Assembly"]:::phase
+    P6_out --> P7
+
+    P7_ex["Item 15: Exhibits & Schedules<br/>📄 All executed exhibits — articles, bylaws,<br/>advisory agreements, sub-advisory agreements,<br/>employment agreements, plan documents<br/>👤 LLM drafts exhibit index<br/>👤 Corporate Secretary provides executed exhibits"]:::yellow
+    P7 --> P7_ex
+
+    P7_asm["Assemble Complete 10-K<br/>📄 All Phase 1–6 outputs<br/>👤 LLM merges all sections<br/>👤 Controller performs final cross-reference check"]:::green
+    P7 --> P7_asm
+
+    P7_xbrl["XBRL / iXBRL Tagging<br/>📄 Complete 10-K document<br/>👤 Filing agent or specialized tool<br/>👤 Cannot be automated by LLM"]:::red
+    P7 --> P7_xbrl
+
+    P7_cert["CEO & CFO Certifications — Section 302 & 906<br/>📄 Certification templates<br/>👤 CEO signs | 👤 CFO signs"]:::red
+    P7 --> P7_cert
+
+    P7_out["📤 Complete 10-K Ready for Filing"]:::output
+    P7_ex --> P7_out
+    P7_asm --> P7_out
+    P7_xbrl --> P7_out
+    P7_cert --> P7_out
+
+    %% ============================================
+    %% PHASE 8: REVIEW & FILING
+    %% ============================================
+
+    P8["PHASE 8: Final Review & SEC Filing"]:::phase
+    P7_out --> P8
+
+    P8_audit["Independent Auditor Issues Opinion<br/>📄 Completed audit workpapers, management rep letter<br/>👤 Lead audit partner — signs report"]:::red
+    P8 --> P8_audit
+
+    P8_ac["Audit Committee Review<br/>📄 10-K draft, auditor report, management rep letter<br/>👤 Audit Committee Chair — recommends inclusion of F/S"]:::red
+    P8 --> P8_ac
+
+    P8_board["Board Approval<br/>📄 Final 10-K, Audit Committee recommendation<br/>👤 Board of Directors — approves filing by resolution"]:::red
+    P8 --> P8_board
+
+    P8_file["File with SEC via Edgar<br/>📄 Final 10-K, XBRL files, certifications<br/>👤 Filing agent submits<br/>👤 Within 60 days of fiscal year end for SRCs"]:::red
+    P8 --> P8_file
+
+    P8_out["📤 Filed Form 10-K<br/>Available on SEC.gov and company website"]:::output
+    P8_audit --> P8_out
+    P8_ac --> P8_out
+    P8_board --> P8_out
+    P8_file --> P8_out

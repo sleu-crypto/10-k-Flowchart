@@ -1,1 +1,75 @@
+flowchart TD
+    classDef green fill:#C6EFCE,stroke:#006100,color:#006100,stroke-width:2px
+    classDef yellow fill:#FFEB9C,stroke:#9C6500,color:#9C6500,stroke-width:2px
+    classDef red fill:#FFC7CE,stroke:#9C0006,color:#9C0006,stroke-width:2px
+    classDef phase fill:#2E4057,stroke:#2E4057,color:#FFFFFF,stroke-width:2px
+    classDef output fill:#D5E8D4,stroke:#82B366,color:#2D6A2E,stroke-width:2px
+    classDef subflow fill:#DAE8FC,stroke:#6C8EBF,color:#1A3A5C,stroke-width:2px
+    classDef pending fill:#F8E8D0,stroke:#C4873B,color:#7A4A1A,stroke-width:2px
+    classDef gap fill:#E0E0E0,stroke:#616161,color:#616161,stroke-width:2px,stroke-dasharray: 5 5
 
+    TITLE["BEROK CAPITAL, INC. — FORM 10-K<br/>Master Compilation Flowchart"]:::phase
+
+    P0["PHASE 0: Close Books & Finalize Trial Balance"]:::phase
+    TITLE --> P0
+
+    P0_detail["📄 General Ledger, Bank Reconciliations, AJEs<br/>👤 Controller — posts entries, reviews, signs off<br/>📤 Locked Trial Balance — foundation for all phases"]:::red
+    P0 --> P0_detail
+
+    P1["PHASE 1: Part I — Business & Governance"]:::phase
+    P0_detail --> P1
+
+    P1_bus["🟠 Item 1: Business<br/>📄 Fund Prospectuses 1.3.03–1.3.18<br/>📄 Fund Performance History 1.3.19<br/>📄 Fund AUM Schedule 1.4.01<br/>📄 Revenue & Sub-Advisory Fees 1.4.02<br/>📄 PXR Acquisition Memo 8.10.06<br/>📄 PXR N-14 Registration 8.10.05<br/>👤 LLM drafts from PY 10-K + fund docs<br/>👤 CEO/COO confirms updates"]:::pending
+    P1 --> P1_bus
+
+    P1_risk["🟠 Item 1A: Risk Factors<br/>📄 PY 10-K, board minutes, legal counsel<br/>👤 LLM drafts | 👤 Legal reviews<br/>👤 CEO approves final language"]:::pending
+    P1 --> P1_risk
+
+    P1_cyber["Item 1C: Cybersecurity<br/>📄 PY 10-K, IT incident logs<br/>👤 LLM drafts | 👤 IT confirms"]:::yellow
+    P1 --> P1_cyber
+
+    P1_234["Items 2–4: Properties, Legal, Mine Safety<br/>📄 PY 10-K, lease agreements<br/>👤 LLM drafts | 👤 Legal confirms"]:::yellow
+    P1 --> P1_234
+
+    P1_out["📤 Part I Complete"]:::output
+    P1_bus --> P1_out
+    P1_risk --> P1_out
+    P1_cyber --> P1_out
+    P1_234 --> P1_out
+
+    P2["PHASE 2: Part II — MD&A & Market Data"]:::phase
+    P1_out --> P2
+
+    P2_mkt["Item 5a: Market Information<br/>📄 Nova exchange data, transfer agent<br/>👤 CFO provides shareholder count"]:::yellow
+    P2 --> P2_mkt
+
+    P2_div["Item 5b: Dividend History<br/>📄 8.2.05 Dividend Schedule<br/>👤 LLM extracts rates & ex-dates"]:::green
+    P2 --> P2_div
+
+    P2_repo["Item 5c: Repurchase Table<br/>📄 5.2.01 Share Repurchase Support<br/>👤 LLM compiles monthly activity"]:::green
+    P2 --> P2_repo
+
+    P2_eqcomp["Item 5d: Equity Comp Plan Table<br/>📄 8.6.01 RSU Schedule, Omnibus Plan<br/>👤 LLM compiles authorized/outstanding"]:::green
+    P2 --> P2_eqcomp
+
+    P2_ov["🟠 Item 7a: MD&A Overview<br/>📄 7.2.01 AUM RF Tables<br/>📄 7.2.02 Overview Corroboration<br/>📄 1.4.01 Fund AUM Schedule<br/>👤 LLM drafts | 👤 CEO/COO confirms"]:::pending
+    P2 --> P2_ov
+
+    P2_res["🟠 Item 7b: Results of Operations<br/>📄 7.4.01 Results Tables<br/>📄 7.4.02 Results Prose Corroboration<br/>📄 Trial Balance<br/>👤 LLM compiles YoY | 👤 CFO reviews"]:::pending
+    P2 --> P2_res
+
+    P2_liq["🟠 Item 7c: Liquidity & Capital Resources<br/>📄 7.03.01 Capital Requirements Analysis<br/>📄 7.03.02 Funding Plan Documentation<br/>📄 7.03.03 Cash Audit Support<br/>📄 7.03.04 Debt Classification Memo<br/>👤 LLM drafts | 👤 CFO confirms"]:::pending
+    P2 --> P2_liq
+
+    P2_crit["Item 7d: Critical Accounting Estimates<br/>📄 8.10.07 Impairment Testing Memo<br/>📄 8.17.04 Tax Provision Model<br/>👤 CFO/Controller — judgment required"]:::red
+    P2 --> P2_crit
+
+    P2_out["📤 Part II Narrative Complete"]:::output
+    P2_mkt --> P2_out
+    P2_div --> P2_out
+    P2_repo --> P2_out
+    P2_eqcomp --> P2_out
+    P2_ov --> P2_out
+    P2_res --> P2_out
+    P2_liq --> P2_out
+    P2_crit --> P2_out
